@@ -20,7 +20,7 @@ jobs:
           java-version: '17'
       - run: java -version
       - name: Code vulnerability scanning
-        working-directory: ./app
+        working-directory: ./cnsia
         uses: anchore/scan-action@v3
         id: scan
         with:
