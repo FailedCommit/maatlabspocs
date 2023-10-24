@@ -1,41 +1,64 @@
+Skip to content
+ThomasVitale
+/
+cloud-native-spring-in-action
+
+Type / to search
+
+Code
+Issues
+4
+Pull requests
+Actions
+Projects
+Security
+Insights
+Commit Stage
+Update chapter 3 #48
+Jobs
+Run details
+Workflow file for this run
+.github/workflows/commit-stage.yml at 65a6d1f
 name: Commit Stage
-on: push
+on: [push]
 
 jobs:
   build:
-    name: Build and Test
+    name: Build and Test ${{ matrix.project }}
     runs-on: ubuntu-22.04
     permissions:
       contents: read
       security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [
+          cnsia/catalog-service
+        ]
     steps:
-      - name: logging
-        run: |
-          echo ${{ github.workspace }}
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
         with:
-          distribution: 'corretto' # See 'Supported distributions' for available options
-          java-version: '17'
-      - run: java -version
+          distribution: corretto
+          java-version: 17
+          cache: gradle
       - name: Code vulnerability scanning
         uses: anchore/scan-action@v3
         id: scan
         with:
-          path: "${{ github.workspace }}"
+          path: "${{ github.workspace }}/${{ matrix.project }}"
           fail-build: false
           severity-cutoff: high
           acs-report-enable: true
-      # Upload step works only for Public Repos or you need to get an Enterprise Subscription.
       - name: Upload vulnerability report
         uses: github/codeql-action/upload-sarif@v2
-        if: success() || failure()
         with:
           sarif_file: ${{ steps.scan.outputs.sarif }}
-      - name: Build, Unit Tests and Integration Tests
-        if: github.ref == 'refs/heads/cnsia'
+      - name: Build, unit tests and integration tests
         run: |
+          cd ${{ matrix.project }}
           chmod +x gradlew
           ./gradlew build
-      
-          
+Update chapter 3 · ThomasVitale/cloud-native-spring-in-action@65a6d1f 
