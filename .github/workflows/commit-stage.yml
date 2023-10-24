@@ -9,13 +9,16 @@ jobs:
       contents: read
       security-events: write
     steps:
+      - name: logging
+        run: |
+          echo ${{ github.workspace }}
       - name: Checkout source code
         uses: actions/checkout@v3
       - name: Set up JDK
         uses: actions/setup-java@v3
         with:
-          distribution: corretto
-          java-version: 17
+          distribution: 'corretto'
+          java-version: '17'
           cache: gradle
       - name: Code vulnerability scanning
         uses: anchore/scan-action@v3
