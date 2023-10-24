@@ -8,35 +8,35 @@ jobs:
     permissions:
       contents: read
       security-events: write
-    steps:
-      - name: logging
-        run: |
-          echo ${{ github.workspace }}
-      - uses: actions/checkout@v3
-      - uses: actions/setup-java@v3
-        with:
-          distribution: 'corretto' # See 'Supported distributions' for available options
-          java-version: '17'
-      - run: java -version
-      - name: Code vulnerability scanning
-        working-directory: ./app
-        uses: anchore/scan-action@v3
-        id: scan
-        with:
-          path: "${{ github.workspace }}"
-          fail-build: false
-          severity-cutoff: high
-          acs-report-enable: true
-      # Upload step works only for Public Repos or you need to get an Enterprise Subscription.
-      - name: Upload vulnerability report
-        uses: github/codeql-action/upload-sarif@v2
-        if: success() || failure()
-        with:
-          sarif_file: ${{ steps.scan.outputs.sarif }}
-      - name: Build, Unit Tests and Integration Tests
-        if: github.ref == 'refs/heads/cnsia'
-          run: |
-            chmod +x gradlew
-            ./gradlew build
+      if: github.ref == 'refs/heads/cnsia'
+        steps:
+          - name: logging
+            run: |
+              echo ${{ github.workspace }}
+          - uses: actions/checkout@v3
+          - uses: actions/setup-java@v3
+            with:
+              distribution: 'corretto' # See 'Supported distributions' for available options
+              java-version: '17'
+          - run: java -version
+          - name: Code vulnerability scanning
+            working-directory: ./app
+            uses: anchore/scan-action@v3
+            id: scan
+            with:
+              path: "${{ github.workspace }}"
+              fail-build: false
+              severity-cutoff: high
+              acs-report-enable: true
+          # Upload step works only for Public Repos or you need to get an Enterprise Subscription.
+          - name: Upload vulnerability report
+            uses: github/codeql-action/upload-sarif@v2
+            if: success() || failure()
+            with:
+              sarif_file: ${{ steps.scan.outputs.sarif }}
+          - name: Build, Unit Tests and Integration Tests
+            run: |
+              chmod +x gradlew
+              ./gradlew build
       
           
