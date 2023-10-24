@@ -19,6 +19,7 @@ jobs:
           java-version: '17'
       - run: java -version
       - name: Code vulnerability scanning
+        working-directory: ./app
         uses: anchore/scan-action@v3
         id: scan
         with:
@@ -33,8 +34,9 @@ jobs:
         with:
           sarif_file: ${{ steps.scan.outputs.sarif }}
       - name: Build, Unit Tests and Integration Tests
-        run: |
-          chmod +x gradlew
-          ./gradlew build
+        if: github.ref == 'refs/heads/cnsia'
+          run: |
+            chmod +x gradlew
+            ./gradlew build
       
           
