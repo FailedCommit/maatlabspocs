@@ -8,7 +8,6 @@ jobs:
     permissions:
       contents: read
       security-events: write
-    if: github.ref == 'refs/heads/cnsia'
     steps:
       - name: logging
         run: |
@@ -35,6 +34,7 @@ jobs:
         with:
           sarif_file: ${{ steps.scan.outputs.sarif }}
       - name: Build, Unit Tests and Integration Tests
+        if: github.ref == 'refs/heads/cnsia'
         run: |
           chmod +x gradlew
           ./gradlew build
