@@ -9,6 +9,12 @@ version = '0.0.1-SNAPSHOT'
 
 ext['snakeyaml.version'] = '2.2'
 
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
 java {
 	sourceCompatibility = '17'
 }
@@ -23,6 +29,8 @@ dependencies {
 	implementation 'jakarta.validation:jakarta.validation-api'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 }
 
 tasks.named('test') {

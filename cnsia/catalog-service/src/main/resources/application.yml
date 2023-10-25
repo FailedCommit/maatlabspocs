@@ -8,3 +8,6 @@ server:
       min-spare: 5
   error:
     include-message: always
+
+polar:
+  greeting: Welcome to the local Book Catalog!
