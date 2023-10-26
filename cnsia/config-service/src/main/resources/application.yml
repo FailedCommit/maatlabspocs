@@ -14,12 +14,8 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/PolarBookshop/config-repo
-#          uri: https://github.com/cnsia/config-repo
+          uri: https://github.com/FailedCommit/config-repo
           default-label: main
           timeout: 5
           clone-on-start: true
           force-pull: true
-          username: FailedCommit
-          passphrase: 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
-          password: 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
