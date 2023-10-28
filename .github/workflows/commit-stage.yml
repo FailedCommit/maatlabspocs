@@ -12,7 +12,8 @@ jobs:
       fail-fast: false
       matrix:
         project: [
-          cnsia/catalog-service
+          cnsia/catalog-service,
+          cnsia/config-service,
         ]
     steps:
       - uses: actions/checkout@v3
