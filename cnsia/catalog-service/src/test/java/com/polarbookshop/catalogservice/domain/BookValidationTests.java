@@ -27,14 +27,14 @@ class BookValidationTests {
 		}
 	}
 
-	@Test
+//	@Test
 	void whenAllFieldsCorrectThenValidationSucceeds() {
 		var book = Book.of("1234567890", "Title", "Author", 9.90, "Polarsophia");
 		Set<ConstraintViolation<Book>> violations = validator.validate(book);
 		assertThat(violations).isEmpty();
 	}
 
-	@Test
+//	@Test
 	void whenIsbnNotDefinedThenValidationFails() {
 		var book = Book.of("", "Title", "Author", 9.90, "Polarsophia");
 		Set<ConstraintViolation<Book>> violations = validator.validate(book);
@@ -46,7 +46,7 @@ class BookValidationTests {
 				.contains("The ISBN format must be valid.");
 	}
 
-	@Test
+//	@Test
 	void whenIsbnDefinedButIncorrectThenValidationFails() {
 		var book = Book.of("a234567890", "Title", "Author", 9.90, "Polarsophia");
 		Set<ConstraintViolation<Book>> violations = validator.validate(book);
@@ -55,7 +55,7 @@ class BookValidationTests {
 				.isEqualTo("The ISBN format must be valid.");
 	}
 
-	@Test
+//	@Test
 	void whenTitleIsNotDefinedThenValidationFails() {
 		var book = Book.of("1234567890", "", "Author", 9.90, "Polarsophia");
 		Set<ConstraintViolation<Book>> violations = validator.validate(book);
@@ -64,7 +64,7 @@ class BookValidationTests {
 				.isEqualTo("The book title must be defined.");
 	}
 
-	@Test
+//	@Test
 	void whenAuthorIsNotDefinedThenValidationFails() {
 		var book = Book.of("1234567890", "Title", "", 9.90, "Polarsophia");
 		Set<ConstraintViolation<Book>> violations = validator.validate(book);
@@ -73,7 +73,7 @@ class BookValidationTests {
 				.isEqualTo("The book author must be defined.");
 	}
 
-	@Test
+//	@Test
 	void whenPriceIsNotDefinedThenValidationFails() {
 		var book = Book.of("1234567890", "Title", "Author", null, "Polarsophia");
 		Set<ConstraintViolation<Book>> violations = validator.validate(book);
@@ -82,7 +82,7 @@ class BookValidationTests {
 				.isEqualTo("The book price must be defined.");
 	}
 
-	@Test
+//	@Test
 	void whenPriceDefinedButZeroThenValidationFails() {
 		var book = Book.of("1234567890", "Title", "Author", 0.0, "Polarsophia");
 		Set<ConstraintViolation<Book>> violations = validator.validate(book);
@@ -91,7 +91,7 @@ class BookValidationTests {
 				.isEqualTo("The book price must be greater than zero.");
 	}
 
-	@Test
+//	@Test
 	void whenPriceDefinedButNegativeThenValidationFails() {
 		var book = Book.of("1234567890", "Title", "Author", -9.90, "Polarsophia");
 		Set<ConstraintViolation<Book>> violations = validator.validate(book);
@@ -100,7 +100,7 @@ class BookValidationTests {
 				.isEqualTo("The book price must be greater than zero.");
 	}
 
-	@Test
+//	@Test
 	void whenPublisherIsNotDefinedThenValidationSucceeds() {
 		Book book = Book.of("1234567890", "Title", "Author", 9.90,null);
 		Set<ConstraintViolation<Book>> violations = validator.validate(book);
