@@ -1,8 +1,8 @@
 name: Commit Stage
-on:
-  push:
-  schedule: # Every Monday
-    - cron: '0 0 * * 1'
+on: push
+#  push:
+#  schedule: # Every Monday
+#    - cron: '0 0 * * 1'
 
 jobs:
   build:
