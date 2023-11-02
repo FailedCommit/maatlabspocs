@@ -59,6 +59,9 @@ bootRun {
 
 bootBuildImage {
 	imageName = "${project.name}"
+	println '***** Printing the image name *****'
+	println "${project.name}"
+	println '******************************'
 	environment = ["BP_JVM_VERSION": "17.*"]
 
 	docker {
