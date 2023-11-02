@@ -73,8 +73,7 @@ jobs:
         with:
           value: ${{ env.TEMP_IMAGE_NAME }}
           index_of_str: "cnsia/"
-          env:
-            IMAGE_NAME: ${{ steps.one.outputs.substring }}
+          IMAGE_NAME: ${{ steps.one.outputs.substring }}
       - run: echo "****************** Image Name ******************"
       - run: echo ${{ steps.one.outputs.substring }}
       - run: echo "************************************************"
