@@ -5,33 +5,33 @@ on:
     - cron: '0 0 * * 1'
 
 jobs:
-#  build:
-#    name: Build and Test ${{ matrix.project }}
-#    runs-on: ubuntu-22.04
-#    permissions:
-#      contents: read
-#      security-events: write
-#    strategy:
-#      fail-fast: false
-#      matrix:
-#        project: [
-#          cnsia/catalog-service,
-#          cnsia/config-service,
-#        ]
-#    steps:
-#      - name: Checkout repository
-#        uses: actions/checkout@v3
-#      - name: Set up JDK
-#        uses: actions/setup-java@v3
-#        with:
-#          distribution: 'corretto'
-#          java-version: '17'
-#          cache: gradle
-#      - name: Build, unit tests and integration tests
-#        run: |
-#          cd ${{ matrix.project }}
-#          chmod +x gradlew
-#          ./gradlew build
+  build:
+    name: Build and Test ${{ matrix.project }}
+    runs-on: ubuntu-22.04
+    permissions:
+      contents: read
+      security-events: write
+    strategy:
+      fail-fast: false
+      matrix:
+        project: [
+          cnsia/catalog-service,
+          cnsia/config-service,
+        ]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'corretto'
+          java-version: '17'
+          cache: gradle
+      - name: Build, unit tests and integration tests
+        run: |
+          cd ${{ matrix.project }}
+          chmod +x gradlew
+          ./gradlew build
 #      - name: Code vulnerability scanning
 #        uses: anchore/scan-action@v3
 #        id: scan
