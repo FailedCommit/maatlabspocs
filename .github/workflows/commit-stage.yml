@@ -6,7 +6,7 @@ on:
 
 env:
   REGISTRY: ghcr.io
-#  IMAGE_NAME: failedcommit/catalog-service
+#  IMAGE_NAME: ${{ github.repository }}
   VERSION: latest
 
 jobs:
@@ -65,6 +65,8 @@ jobs:
 #          cnsia/catalog-service,
           cnsia/config-service,
         ]
+    env:
+      IMAGE_NAME: ${{ matrix.project }}
     steps:
       - name: Checkout source code
         uses: actions/checkout@v3
@@ -78,12 +80,12 @@ jobs:
         run: |
           cd ${{ matrix.project }}
           chmod +x gradlew
-          ./gradlew bootBuildImage
+          ./gradlew bootBuildImage --imageName ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
       - name: OCI image vulnerability scanning
         uses: anchore/scan-action@v3
         id: scan
         with:
-          image: ${{ env.REGISTRY }}/${{ matrix.container }}:${{ env.VERSION }}
+          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
           fail-build: false
           severity-cutoff: high
 #      - name: Upload vulnerability report
@@ -98,4 +100,4 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish container image
-        run: docker push ${{ env.REGISTRY }}/${{ matrix.container }}:${{ env.VERSION }}
+        run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
