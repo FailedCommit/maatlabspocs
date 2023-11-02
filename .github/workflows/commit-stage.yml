@@ -4,6 +4,11 @@ on:
   schedule: # Every Monday
     - cron: '0 0 * * 1'
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: failedcommit/catalog-service
+  VERSION: latest
+
 jobs:
   build:
     name: Build and Test ${{ matrix.project }}
