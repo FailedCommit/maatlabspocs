@@ -72,7 +72,7 @@ jobs:
       - name: Build container image
         run: |
           cd ${{ matrix.project }}
-          echo ${{ pwd }}
+          run: echo "$pwd"
           chmod +x gradlew
           ./gradlew bootBuildImage \
             --imageName ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
