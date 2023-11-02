@@ -65,15 +65,12 @@ jobs:
 #          cnsia/catalog-service,
           cnsia/config-service,
         ]
-    env:
-      IMAGE_NAME: ${{ matrix.project }}
     steps:
       - uses: bhowell2/github-substring-action@1.0.2
         id: one
         with:
-          value: ${{ env.TEMP_IMAGE_NAME }}
+          value: ${{ matrix.project }}
           index_of_str: "cnsia/"
-          IMAGE_NAME: ${{ steps.one.outputs.substring }}
       - run: echo "****************** Image Name ******************"
       - run: echo ${{ steps.one.outputs.substring }}
       - run: echo "************************************************"
@@ -89,12 +86,12 @@ jobs:
         run: |
           cd ${{ matrix.project }}
           chmod +x gradlew
-          ./gradlew bootBuildImage --imageName ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+          ./gradlew bootBuildImage --imageName ${{ env.REGISTRY }}/${{ steps.one.outputs.substring }}:${{ env.VERSION }}
       - name: OCI image vulnerability scanning
         uses: anchore/scan-action@v3
         id: scan
         with:
-          image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+          image: ${{ env.REGISTRY }}/${{ steps.one.outputs.substring }}:${{ env.VERSION }}
           fail-build: false
           severity-cutoff: high
 #      - name: Upload vulnerability report
@@ -109,4 +106,4 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       - name: Publish container image
-        run: docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:${{ env.VERSION }}
+        run: docker push ${{ env.REGISTRY }}/${{ steps.one.outputs.substring }}:${{ env.VERSION }}
